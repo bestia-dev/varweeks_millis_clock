@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["_ASSERT"],"fn":["__wasm_bindgen_generated_wasm_bindgen_start","debug_write","get_element_by_id","set_interval","speak_the_time","wasm_bindgen_start","window","write_time_to_screen"]};

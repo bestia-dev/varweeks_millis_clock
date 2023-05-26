@@ -1,0 +1,31 @@
+{
+    "cSpell.words": [
+        "Alla",
+        "bestia",
+        "bestiadev",
+        "bindgen",
+        "cdylib",
+        "chrono",
+        "crev",
+        "endregion",
+        "jetli",
+        "microday",
+        "microdays",
+        "Milli",
+        "millis",
+        "Nazdravlje",
+        "oclock",
+        "plantuml",
+        "Prost",
+        "rustlang",
+        "serde",
+        "substack",
+        "Varweek",
+        "varweeks",
+        "webassembly",
+        "zdravje"
+    ],
+	    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#553955" // Change this color!
+      }
+}

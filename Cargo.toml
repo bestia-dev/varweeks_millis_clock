@@ -1,0 +1,53 @@
+[package]
+name = "varweeks_millis_clock"
+version = "2023.526.1039"
+authors = ["bestia.dev"]
+homepage = "https://bestia.dev"
+edition = "2018"
+description = "clock with new date time units formats: varweeks and millis"
+repository = "https://github.com/bestia-dev/varweeks_millis_clock"
+readme = "README.md"
+license = "MIT"
+keywords = ["wasm"]
+categories = ["learning"]
+publish = false
+
+[lib]
+# cdylib is for the wasm module library
+crate-type = ["cdylib"]
+
+[dependencies]
+varweeks_millis = "1.0.2"
+unwrap = "1.2.1"
+wasm-bindgen = { version = "0.2.69", features = ["serde-serialize"] }
+console_error_panic_hook = "0.1.6"
+js-sys = "0.3.46"
+chrono = "0.4.19"
+
+[dependencies.web-sys]
+version = "0.3.46"
+features = [
+  "AbortController",
+  "console",
+  "Document",
+  "Element",
+  "ErrorEvent",
+  "Headers",
+  "HtmlAudioElement",
+  "HtmlElement",
+  "HtmlHtmlElement",
+  "KeyboardEvent",
+  "Location",
+  "MouseEvent",
+  "Navigator",
+  "Node",
+  "Response",
+  "Screen",
+  "Window",
+]
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.19"
+
+[profile.release]
+panic = "abort"
