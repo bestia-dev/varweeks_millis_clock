@@ -219,9 +219,9 @@ fn task_commit_and_push(arg_2: Option<String>) {
 }
 
 
-/// publish to crates.io and git tag
+/// publish to web server and git tag
 fn task_publish_to_web_server() {
-    println!(r#"{YELLOW}The crates.io access token must already be saved locally with `cargo login TOKEN`{RESET}"#);
+    println!(r#"{YELLOW}Use ssh-agent and ssh-add to store passphrase for ssh.{RESET}"#);
 
     let cargo_toml = CargoToml::read();
     // git tag
@@ -231,18 +231,15 @@ fn task_publish_to_web_server() {
     );
     run_shell_command(&shell_command);
 
-    // cargo publish
-    run_shell_command("cargo publish");
+    // rsync
+    run_shell_command("rsync -e ssh -a --info=progress2 --delete-after web_server_folder/varweeks_millis_clock/ luciano_bestia@bestia.dev:/var/www/bestia.dev/varweeks_millis_clock/");
+    
     println!(
         r#"
     {YELLOW}After `cargo auto publish_to_web_server`, check in browser{RESET}
-{GREEN}https://crates.io/crates/{package_name}{RESET}
-    Add the dependency {RESET}
-{GREEN}{package_name} = "{package_version}"{RESET}
-    {YELLOW}to your Rust project and check how it works.{RESET}
+{GREEN}https://bestia.dev/{package_name}{RESET}
 {GREEN}{RESET}"#,
-        package_name = cargo_toml.package_name(),
-        package_version = cargo_toml.package_version()
+        package_name = cargo_toml.package_name()
     );
 }
 
