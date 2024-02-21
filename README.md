@@ -9,8 +9,8 @@
 
 [//]: # (auto_cargo_toml_to_md end)
 
-![status](https://img.shields.io/badge/maintained-green) 
-![status](https://img.shields.io/badge/ready_for_use-green) 
+ ![maintained](https://img.shields.io/badge/maintained-green)
+ ![ready_for_use](https://img.shields.io/badge/ready_for_use-green)
 
 [//]: # (auto_lines_of_code start)
 [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-91-green.svg)](https://github.com/bestia-dev/varweeks_millis_clock/)
@@ -21,9 +21,9 @@
 
 [//]: # (auto_lines_of_code end)
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/varweeks_millis_clock/blob/master/LICENSE)
-[![Rust](https://github.com/bestia-dev/varweeks_millis_clock/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/varweeks_millis_clock/)
-![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/949728184.svg)
+ [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/varweeks_millis_clock/blob/master/LICENSE)
+ [![Rust](https://github.com/bestia-dev/varweeks_millis_clock/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/varweeks_millis_clock/)
+ ![varweeks_millis_clock](https://bestia.dev/webpage_hit_counter/get_svg_image/949728184.svg)
 
 Hashtags: #rustlang #tutorial #datetime #pwa #wasm #webassembly #datetime  
 My projects on Github are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
