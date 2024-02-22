@@ -67,11 +67,11 @@ fn print_help() {
     This program automates your custom tasks when developing a Rust project.{RESET}
 
     {YELLOW}User defined tasks in automation_tasks_rs:{RESET}
-{GREEN}cargo auto build{RESET}{YELLOW} - builds the crate in debug mode, fmt, increment version{RESET}
-{GREEN}cargo auto release{RESET}{YELLOW} - builds the crate in release mode, fmt, increment version{RESET}
-{GREEN}cargo auto doc{RESET}{YELLOW} - builds the docs, copy to docs directory{RESET}
-{GREEN}cargo auto test{RESET}{YELLOW} - runs all the tests{RESET}
-{GREEN}cargo auto commit_and_push "message"{RESET}{YELLOW} - commits with message and push with mandatory message{RESET}
+{GREEN}cargo auto build{RESET} - {YELLOW}builds the crate in debug mode, fmt, increment version{RESET}
+{GREEN}cargo auto release{RESET} - {YELLOW}builds the crate in release mode, fmt, increment version{RESET}
+{GREEN}cargo auto doc{RESET} - {YELLOW}builds the docs, copy to docs directory{RESET}
+{GREEN}cargo auto test{RESET} - {YELLOW}runs all the tests{RESET}
+{GREEN}cargo auto commit_and_push "message"{RESET} - {YELLOW}commits with message and push with mandatory message{RESET}
     {YELLOW}(If you use SSH, it is easy to start the ssh-agent in the background and ssh-add your credentials for GitHub.){RESET}
 {GREEN}cargo auto publish_to_web_server - publish to crates.io, git tag{RESET}
     {YELLOW}(If you use SSH, it is easy to start the ssh-agent in the background and ssh-add your credentials for your web server.{RESET}
@@ -130,9 +130,9 @@ fn task_build() {
 {GREEN}basic-http-server -a 0.0.0.0:4000 ./web_server_folder{RESET}
     {YELLOW}Open the browser on {RESET}
 {GREEN}http://127.0.0.1:4000/varweeks_millis_clock/{RESET}
-    {YELLOW}if ok, then,{RESET}
+    {YELLOW}if ok then{RESET}
 {GREEN}cargo auto release{RESET}
-    {YELLOW}{RESET}"#
+    "#
     );
     print_examples_cmd();
 }
@@ -156,9 +156,9 @@ fn task_release() {
 {GREEN}basic-http-server -a 0.0.0.0:4000 ./web_server_folder{RESET}
     {YELLOW}Open the browser on {RESET}
 {GREEN}http://127.0.0.1:4000/varweeks_millis_clock/{RESET}    
-    {YELLOW}if ok, then,{RESET}
+    {YELLOW}if ok then{RESET}
 {GREEN}cargo auto doc{RESET}
-    {YELLOW}{RESET}"#
+    "#
     );
     print_examples_cmd();
 }
@@ -183,9 +183,9 @@ fn task_doc() {
     // message to help user with next move
     println!(
         r#"
-    {YELLOW}After `cargo auto doc`, check `docs/index.html`. If ok, then test the documentation code examples{RESET}
+    {YELLOW}After `cargo auto doc`, check `docs/index.html`. If ok then test the documentation code examples{RESET}
 {GREEN}cargo auto test{RESET}
-    {YELLOW}{RESET}"#
+    "#
     );
 }
 
@@ -194,7 +194,7 @@ fn task_test() {
     run_shell_command("cargo test");
     println!(
         r#"
-    {YELLOW}After `cargo auto test`. If ok, then {RESET}
+    {YELLOW}After `cargo auto test`. If ok then {RESET}
 {GREEN}cargo auto commit_and_push "message"{RESET}
     {YELLOW}with mandatory commit message{RESET}
 {GREEN}{RESET}"#
@@ -212,7 +212,7 @@ fn task_commit_and_push(arg_2: Option<String>) {
                 r#"
     {YELLOW}After `cargo auto commit_and_push "message"`{RESET}
 {GREEN}cargo auto publish_to_web_server{RESET}
-    {YELLOW}{RESET}"#
+    "#
             );
         }
     }
