@@ -1,21 +1,19 @@
-//! automation_tasks_rs for varweeks_millis_clock
+// automation_tasks_rs for varweeks_millis_clock
 
-use cargo_auto_lib::*;
+// region: library with basic automation tasks
+use cargo_auto_lib as cl;
+// traits must be in scope (Rust strangeness)
+use cl::CargoTomlPublicApiMethods;
 
-// ANSI colors for Linux terminal
-// https://github.com/shiena/ansicolor/blob/master/README.md
-#[allow(dead_code)]
-pub const RED: &str = "\x1b[31m";
-#[allow(dead_code)]
-pub const YELLOW: &str = "\x1b[33m";
-#[allow(dead_code)]
-pub const GREEN: &str = "\x1b[32m";
-#[allow(dead_code)]
-pub const RESET: &str = "\x1b[0m";
+use cargo_auto_lib::GREEN;
+use cargo_auto_lib::RED;
+use cargo_auto_lib::RESET;
+use cargo_auto_lib::YELLOW;
 
+// region: library with basic automation tasks
 
 fn main() {
-    exit_if_not_run_in_rust_project_root_directory();
+    cl::exit_if_not_run_in_rust_project_root_directory();
 
     // get CLI arguments
     let mut args = std::env::args();
@@ -77,7 +75,7 @@ fn print_help() {
     {YELLOW}(If you use SSH, it is easy to start the ssh-agent in the background and ssh-add your credentials for your web server.{RESET}
 {GREEN} cargo login TOKEN{RESET}
    
-    {YELLOW}© 2023 bestia.dev  MIT License github.com/bestia-dev/cargo-auto{RESET}
+    {YELLOW}© 2024 bestia.dev  MIT License github.com/bestia-dev/cargo-auto{RESET}
 "#
     );
     print_examples_cmd();
@@ -118,10 +116,10 @@ fn completion() {
 /// cargo build
 fn task_build() {
     //let cargo_toml = CargoToml::read();
-    auto_version_increment_semver_or_date();
-    run_shell_command("cargo fmt");
-    run_shell_command("wasm-pack build --target web");
-    run_shell_command("rsync -a --delete-after pkg/ web_server_folder/varweeks_millis_clock/pkg/");
+    cl::auto_version_increment_semver_or_date();
+    cl::run_shell_command("cargo fmt");
+    cl::run_shell_command("wasm-pack build --target web");
+    cl::run_shell_command("rsync -a --delete-after pkg/ web_server_folder/varweeks_millis_clock/pkg/");
     println!(
         r#"
     {YELLOW}After `cargo auto build`, run the compiled wasm, examples and/or tests{RESET}
@@ -140,13 +138,13 @@ fn task_build() {
 /// cargo build --release
 fn task_release() {
     //let cargo_toml = CargoToml::read();
-    auto_version_increment_semver_or_date();
-    auto_cargo_toml_to_md();
-    auto_lines_of_code("");
+    cl::auto_version_increment_semver_or_date();
+    cl::auto_cargo_toml_to_md();
+    cl::auto_lines_of_code("");
 
-    run_shell_command("cargo fmt");
-    run_shell_command("wasm-pack build --target web --release");
-    run_shell_command("rsync -a --delete-after pkg/ web_server_folder/varweeks_millis_clock/pkg/");
+    cl::run_shell_command("cargo fmt");
+    cl::run_shell_command("wasm-pack build --target web --release");
+    cl::run_shell_command("rsync -a --delete-after pkg/ web_server_folder/varweeks_millis_clock/pkg/");
 
     println!(
         r#"
@@ -165,56 +163,68 @@ fn task_release() {
 
 /// cargo doc, then copies to /docs/ folder, because this is a github standard folder
 fn task_doc() {
-    let cargo_toml = CargoToml::read();
-    auto_cargo_toml_to_md();
-    auto_lines_of_code("");
-    auto_plantuml(&cargo_toml.package_repository().unwrap());
-    auto_md_to_doc_comments();
+    let cargo_toml = cl::CargoToml::read();
+    cl::auto_cargo_toml_to_md();
+    cl::auto_lines_of_code("");
+    cl::auto_plantuml(&cargo_toml.package_repository().unwrap());
+    cl::auto_md_to_doc_comments();
 
-    run_shell_command("cargo doc --no-deps --document-private-items");
+    cl::run_shell_command("cargo doc --no-deps --document-private-items");
     // copy target/doc into docs/ because it is github standard
-    run_shell_command("rsync -a --info=progress2 --delete-after target/doc/ docs/");
+    cl::run_shell_command("rsync -a --info=progress2 --delete-after target/doc/ docs/");
     // Create simple index.html file in docs directory
-    run_shell_command(&format!(
-        "echo \"<meta http-equiv=\\\"refresh\\\" content=\\\"0; url={}/index.html\\\" />\" > docs/index.html",
-        cargo_toml.package_name().replace("-","_")
+    cl::run_shell_command(&format!(
+        r#"echo "<meta http-equiv=\"refresh\" content=\"0; url={}/index.html\" />" > docs/index.html"#,
+        cargo_toml.package_name().replace("-", "_")
     ));
-    run_shell_command("cargo fmt");
+    // pretty html
+    cl::auto_doc_tidy_html().unwrap();
+    cl::run_shell_command("cargo fmt");
     // message to help user with next move
     println!(
         r#"
     {YELLOW}After `cargo auto doc`, check `docs/index.html`. If ok then test the documentation code examples{RESET}
 {GREEN}cargo auto test{RESET}
-    "#
+"#
     );
 }
 
 /// cargo test
 fn task_test() {
-    run_shell_command("cargo test");
+    cl::run_shell_command("cargo test");
     println!(
-        r#"
+r#"
     {YELLOW}After `cargo auto test`. If ok then {RESET}
 {GREEN}cargo auto commit_and_push "message"{RESET}
     {YELLOW}with mandatory commit message{RESET}
-{GREEN}{RESET}"#
+"#
     );
 }
 
 /// commit and push
 fn task_commit_and_push(arg_2: Option<String>) {
-    match arg_2 {
-        None => println!("{RED}Error: Message for commit is mandatory.{RESET}"),
-        Some(message) => {
-            run_shell_command(&format!(r#"git add -A && git commit --allow-empty -m "{}""#, message));
-            run_shell_command("git push");
-            println!(
-                r#"
-    {YELLOW}After `cargo auto commit_and_push "message"`{RESET}
-{GREEN}cargo auto publish_to_web_server{RESET}
-    "#
-            );
+    let Some(message) = arg_2 else {
+        eprintln!("{RED}Error: Message for commit is mandatory. Exiting.{RESET}");
+        // early exit
+        return;
+    };
+
+    // init repository if needed. If it is not init then normal commit and push.
+    if !cl::init_repository_if_needed(&message) {
+        // separate commit for docs if they changed, to not make a lot of noise in the real commit
+        if std::path::Path::new("docs").exists() {
+            cl::run_shell_command(r#"git add docs && git diff --staged --quiet || git commit -m "update docs" "#);
         }
+        cl::add_message_to_unreleased(&message);
+        // the real commit of code
+        cl::run_shell_command(&format!( r#"git add -A && git diff --staged --quiet || git commit -m "{message}" "#));
+        cl::run_shell_command("git push");
+        println!(
+r#"
+    {YELLOW}After `cargo auto commit_and_push "message"`{RESET}
+{GREEN}cargo auto publish_to_crates_io{RESET}
+"#
+        );
     }
 }
 
@@ -229,10 +239,10 @@ fn task_publish_to_web_server() {
         "git tag -f -a v{version} -m version_{version}",
         version = cargo_toml.package_version()
     );
-    run_shell_command(&shell_command);
+    cl::run_shell_command(&shell_command);
 
     // rsync
-    run_shell_command("rsync -e ssh -a --info=progress2 --delete-after web_server_folder/varweeks_millis_clock/ luciano_bestia@bestia.dev:/var/www/bestia.dev/varweeks_millis_clock/");
+    cl::run_shell_command("rsync -e ssh -a --info=progress2 --delete-after web_server_folder/varweeks_millis_clock/ luciano_bestia@bestia.dev:/var/www/bestia.dev/varweeks_millis_clock/");
     
     println!(
         r#"
