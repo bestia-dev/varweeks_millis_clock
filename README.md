@@ -22,7 +22,7 @@
 [//]: # (auto_lines_of_code end)
 
  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/varweeks_millis_clock/blob/master/LICENSE)
- [![Rust](https://github.com/bestia-dev/varweeks_millis_clock/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/varweeks_millis_clock/)
+ [![Rust](https://github.com/bestia-dev/varweeks_millis_clock/workflows/rust_fmt_auto_build_test/badge.svg)](https://github.com/bestia-dev/varweeks_millis_clock/)
  ![varweeks_millis_clock](https://bestia.dev/webpage_hit_counter/get_svg_image/949728184.svg)
 
 Hashtags: #rustlang #tutorial #datetime #pwa #wasm #webassembly #datetime  
